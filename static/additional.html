@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        font-family: "Mona Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 28px;
+        color: #0c0c0c;
+        margin: 0;
+        margin-top: 0;
+        padding: 0;
+        text-align: center; 
+      }
+
+      .container {
+        position: absolute;
+        bottom: -20px; /* Position at the bottom of the viewport */
+        left: 0;
+        right: 0;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .button {
+        background-color: #0c0c0c;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .input-box {
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+
+      .textbox {
+        width: 200px;
+        height: 20px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <p style="font-size: 25px; font-weight: 800; margin-bottom: 20px">
+        Want product news and updates?
+      </p>
+      <p
+        style="
+          font-size: 16px;
+          font-weight: 400;
+          text-align: center;
+          margin-bottom: 30px;
+        "
+      >
+        We bring the information directly to your inbox, so you can conveniently
+        read and stay up to date at <br />
+        your own pace. Subscribe today for a dose of knowledge and updates.
+      </p>
+      <div>
+        <input
+          type="text"
+          class="textbox"
+          name="Email"
+          placeholder="Enter Your Email"
+        />
+        <button class="button">Subscribe</button>
+      </div>
+    </div>
+  </body>
+</html>

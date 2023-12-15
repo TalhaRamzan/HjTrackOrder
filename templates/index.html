@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Tracking</title>
+  <style>
+    body {
+      font-family: "Mona Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      line-height: 28px;
+      color: #272626;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+
+    .image {
+      flex: 1;
+    }
+
+    .image img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .input-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .textbox {
+      height: 20px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+
+    .button {
+      height: 40px;
+      margin-left: 4px;
+      padding: 10px 20px;
+      background-color: #0c0c0c;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #000000;
+    }
+
+    .divider {
+      width: 100%;
+      border-bottom: 1px solid #ddd;
+      margin: 10px 0;
+    }
+
+    .modal-content {
+      background-color: #242424;
+      border-color: #242424;
+      border-radius: 1rem;
+    }
+
+    @media (min-width: 576px) {
+      .modal-dialog {
+        max-width: 950px;
+        margin: 1.75rem auto;
+      }
+    }
+
+    .modal-header {
+      border-bottom: none;
+      text-align: center;
+    }
+
+    .modal-title {
+      line-height: 5rem;
+    }
+
+    .modal-body {
+      padding: 2rem;
+    }
+
+    .dateStyle {
+      display: flex;
+      justify-content: space-around;
+      margin-left: 40px;
+    }
+
+    @media (max-width: 767px) {
+      .dates {
+        font-size: 12px;
+        line-break: auto;
+      }
+    }
+
+    .body2 {
+      min-height: 60vh;
+      font-family: "Mona Sans", "Helvetica Neue", Helvetica, Arial,
+        sans-serif;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    #dates-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    #dates-bar>div {
+      text-align: center;
+      font-size: 0.8rem;
+      width: calc(25% - 10px);
+    }
+
+    .row {
+      display: flex;
+      /* justify-content: space-between;  */
+      margin-right: 10px;
+    }
+
+    #progressbar {
+      margin-bottom: 5vh;
+      overflow: hidden;
+      color: white;
+      padding-left: 0px;
+      margin-top: 2vh;
+    }
+
+    #progressbar li {
+      list-style-type: none;
+      font-size: 0.8rem;
+      width: 25%;
+      text-align: right;
+      float: left;
+      position: relative;
+      font-weight: 400;
+      color: white;
+    }
+
+    #progressbar #step1:before {
+      content: "";
+      color: white;
+      width: 20px;
+      height: 20px;
+      margin-left: 0px !important;
+    }
+
+    #progressbar #step2:before {
+      content: "";
+      color: #fff;
+      width: 20px;
+      height: 20px;
+      margin-left: 32%;
+    }
+
+    #progressbar #step3:before {
+      content: "";
+      color: #fff;
+      width: 20px;
+      height: 20px;
+      margin-right: 32%;
+    }
+
+    #progressbar #step4:before {
+      content: "";
+      color: rgb(151, 149, 149, 0.651);
+      width: 20px;
+      height: 20px;
+      margin-right: 0px !important;
+    }
+
+    #progressbar li:before {
+      line-height: 29px;
+      display: block;
+      font-size: 12px;
+      background: rgb(151, 149, 149);
+      border-radius: 50%;
+      margin: auto;
+      z-index: -1;
+      margin-bottom: 1vh;
+    }
+
+    #progressbar li:after {
+      content: "";
+      height: 3px;
+      background: rgb(151, 149, 149, 0.651);
+      position: absolute;
+      left: 0%;
+      right: 0%;
+      margin-bottom: 2vh;
+      top: 8px;
+      z-index: 1;
+    }
+
+    .progress-track {
+      padding: 0 10%;
+    }
+
+    #progressbar li:nth-child(2):after {
+      margin-right: auto;
+    }
+
+    #progressbar li:nth-child(1):after {
+      margin: auto;
+    }
+
+    #progressbar li:nth-child(3):after {
+      float: left;
+      width: 68%;
+    }
+
+    #progressbar li:nth-child(4):after {
+      margin-left: auto;
+      width: 132%;
+    }
+
+    #progressbar li.active:before,
+    #progressbar li.active:after {
+      background: white;
+    }
+
+    .modal-header {
+      border-bottom: none;
+      text-align: center;
+    }
+
+    .modal-title {
+      line-height: 5rem;
+    }
+
+    #datesContainer {
+      text-align: center;
+    }
+
+    .centered-container {
+      text-align: center;
+      margin-top: 30px;
+      /* Adjust the margin as needed */
+    }
+
+    .step-text-1 {
+      justify-content: space-around;
+      text-align: left;
+      font-size: 1rem;
+    }
+
+    .step-text-2 {
+      text-align: left;
+      font-size: 1rem;
+    }
+
+    .step-text-3 {
+      text-align: right;
+      font-size: 1rem;
+    }
+
+    .step-text-4 {
+      text-align: right;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 767px) {
+
+      .step-text-1,
+      .step-text-2,
+      .step-text-3,
+      .step-text-4 {
+        font-size: 0.75rem;
+      }
+    }
+
+    @media (max-width: 676) {
+
+      .step-text-1,
+      .step-text-2,
+      .step-text-3,
+      .step-text-4 {
+        font-size: 0.5rem;
+      }
+    }
+
+    .error-message {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      z-index: 9999;
+    }
+
+    .error-message-show {
+      display: block;
+    }
+
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+      }
+
+      45% {
+        opacity: 1;
+      }
+
+      55% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .shake {
+      animation: shake 0.5s;
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25%,
+      75% {
+        transform: translateX(-5px);
+      }
+
+      50% {
+        transform: translateX(5px);
+      }
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="image">
+      <img src="{{ url_for('static', filename='log.PNG') }}" alt="Your Image" />
+    </div>
+    <form method="POST" action="/order_tracking">
+      <div class="input-container">
+        <input type="text" class="textbox" name="order_number" id="orderNumberInput" placeholder="Enter Order Number"
+          required pattern="[0-9]*" />
+        <button type="submit" class="button">Track</button>
+      </div>
+    </form>
+  </div>
+  <div class="divider"></div>
+  <div class="centered-container">
+    <p style="font-size: 14px; font-weight: 300;">
+      Order Number# <span id="displayedOrderNumber"></span>
+    </p>
+    <p style="font-size: 28px; font-weight: 800; margin-top: 10px;">
+      Estimated Delivery
+    </p>
+    <p style="font-size: 14px; font-weight: 700" id="estimatedDeliveryDate">
+
+    </p>
+  </div>
+
+  <div class="body2">
+    <div class="modal fade" id="myModal">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title mx-auto">Order Status</h4>
+          </div>
+
+          <div class="dateStyle">
+            <div class="dates" id="date1"></div>
+            <div class="dates" id="date2"></div>
+            <div class="dates" id="date3"></div>
+            <div class="dates" id="date4"></div>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div class="progress-track">
+              <ul id="progressbar">
+                <li class="step0" id="step1">
+                  <p class="step-text-1">Order Placed</p>
+                </li>
+                <li class="step0" id="step2">
+                  <p class="step-text-2">In Our Workshop</p>
+                </li>
+                <li class="step0" id="step3">
+                  <p class="step-text-3">Ready for Collection</p>
+                  <span id="three"></span>
+                </li>
+                <li class="step0" id="step4">
+                  <p class="step-text-4">Job Collected</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="errorMessage" class="error-message">
+    Invalid Order Number. Please try again.
+  </div>
+  <script>
+    $(document).ready(function () {
+      var statusName = "{{ job_order_data[1] if job_order_data else '' }}";
+      var displayedOrderNumber = "{{ job_order_data[3] if job_order_data else '' }}";
+      var dueDate = "{{ job_order_data[4] if job_order_data else '' }}";
+      var invalidOrder = "{{ invalid_order }}";
+      invalidOrder = invalidOrder === "True";
+      function activateProgressSteps() {
+        $("#progressbar li").each(function (index) {
+          var step = $(this);
+          setTimeout(function () {
+            step.addClass("active");
+          }, index * 1000);
+        });
+      }
+      if (statusName === "Job Complete") {
+        activateProgressSteps();
+        $("#displayedOrderNumber").text(displayedOrderNumber);
+      }
+      else if (statusName === "In Progress") {
+        $("#progressbar #step1, #progressbar #step2").each(function (index) {
+          var step = $(this);
+          setTimeout(function () {
+            step.addClass("active");
+          }, index * 1000);
+        });
+        $("#displayedOrderNumber").text(displayedOrderNumber);
+        $("#estimatedDeliveryDate").text("Due Date: " + dueDate);
+      }
+      else if (statusName === "Awaiting Spares in line are good") {
+        $("#progressbar #step1, #progressbar #step2, #progressbar #step3").each(function (index) {
+          var step = $(this);
+          setTimeout(function () {
+            step.addClass("active");
+          }, index * 1000);
+        });
+        $("#displayedOrderNumber").text(displayedOrderNumber);
+        $("#estimatedDeliveryDate").text("Due Date: " + dueDate);
+      }
+      else if (statusName === "To Be Processed") {
+        $("#progressbar #step1").addClass("active");
+        $("#displayedOrderNumber").text(displayedOrderNumber);
+        $("#estimatedDeliveryDate").text("Due Date: " + dueDate);
+      } else if (statusName === "Returned to Customer") {
+        $("#errorMessage").text("This order has been returned to the customer.");
+        $("#errorMessage").css("background-color", "black");
+        $("#errorMessage").css("color", "white");
+        $("#errorMessage").addClass("error-message-show");
+
+        setTimeout(function () {
+          $("#errorMessage").removeClass("error-message-show");
+        }, 3000);
+      }
+
+      if (invalidOrder) {
+        $("#errorMessage").text("Invalid Order Number. Please try again.");
+        $("#errorMessage").css("background-color", "red");
+        $("#errorMessage").css("color", "white");
+        $("#errorMessage").addClass("error-message-show");
+
+        setTimeout(function () {
+          $("#errorMessage").removeClass("error-message-show");
+        }, 3000);
+      }
+      document.getElementById('orderNumberInput').addEventListener('input', function () {
+        var inputValue = this.value;
+        if (/[^0-9]/.test(inputValue)) {
+          this.classList.add('shake');
+          setTimeout(() => {
+            this.classList.remove('shake');
+          }, 500);
+        }
+      });
+    });
+  </script>
+
+  <iframe src="{{ url_for('static', filename='additional.html') }}" frameborder="0" scrolling="no" width="100%"
+    height="200"></iframe>
+</body>
+
+</html>
